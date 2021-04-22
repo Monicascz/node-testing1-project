@@ -145,14 +145,16 @@ class Car {
    */
   drive(distance) {
     // ✨ implement
-    if (distance <= 600 && this.tank > 0) {
+    const howFarCanDrive = this.tank * this.mpg
+
+    if (distance <= howFarCanDrive && this.tank > 0) {
       this.odometer += distance
       this.tank -= (distance / this.mpg)
+    } else {
+      this.tank = 0
+      this.odometer += howFarCanDrive
     }
-    if (this.tank === 0) {
-      null
-    }
-    console.log("tANK", this.tank)
+    return this.odometer;
   }
   /**
    * [Exercise 6C] Adds gallons to the tank
@@ -166,12 +168,21 @@ class Car {
    * focus.refuel(99) // returns 600 (tank only holds 20)
    */
   refuel(gallons) {
-    // ✨ implement
-    if (this.tank === 0) {
-      this.drive(0)
-    } if (gallons > 0 && gallons <= 20) {
-      this.tank += gallons
+    // ✨ my code
+    // if (this.tank === 0) {
+    //   this.drive(0)
+    // } if (gallons > 0 && gallons <= 20) {
+    //   this.tank += gallons
+    // }
+
+    //Gabe's code
+    const gallonsThatFit = this.tankSize - this.tank
+    if (gallons <= gallonsThatFit) {
+      this.tank = this.tank + gallons
+    } else {
+      this.tank = this.tankSize
     }
+    return this.tank * this.mpg
   }
 }
 
@@ -194,8 +205,13 @@ class Car {
  *    // error.message is "number must be a number"
  * })
  */
-function isEvenNumberAsync(number) {
+async function isEvenNumberAsync(number) {
   // ✨ implement
+  if (typeof number !== "number" || isNaN(number)) {
+    throw new Error("number must be a number")
+  }
+  return number % 2 === 0 ? true : false
+
 }
 
 module.exports = {
