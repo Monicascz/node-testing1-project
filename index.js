@@ -7,9 +7,18 @@
  * trimProperties({ name: '  jane  ' }) // returns a new object { name: 'jane' }
  */
 function trimProperties(obj) {
-  // ✨ implement
+  const newObject = {}
+  for (let prop in obj) {
+    newObject[prop] = obj[prop].trim()
+  }
+  return newObject;
+  //ANOTHER WAY TO DO IT
+  // return Object.keys(obj).reduce((object, string) => {
+  //   object[string] = obj[string].trim()
+  //   return object;
+  // }, {});
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * [Exercise 2] trimPropertiesMutation trims in place the properties of an object
  * @param {object} obj - an object with properties that are strings
@@ -18,10 +27,14 @@ function trimProperties(obj) {
  * EXAMPLE
  * trimPropertiesMutation({ name: '  jane  ' }) // returns the object mutated in place { name: 'jane' }
  */
-function trimPropertiesMutation(obj) {
-  // ✨ implement
-}
 
+function trimPropertiesMutation(obj) {
+  for (let prop in obj) {
+    obj[prop] = obj[prop].trim()
+  }
+  return obj;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * [Exercise 3] findLargestInteger finds the largest integer in an array of objects { integer: 1 }
  * @param {object[]} integers - an array of objects
@@ -30,10 +43,18 @@ function trimPropertiesMutation(obj) {
  * EXAMPLE
  * findLargestInteger([{ integer: 1 }, { integer: 3 }, { integer: 2 }]) // returns 3
  */
-function findLargestInteger(integers) {
-  // ✨ implement
-}
 
+function findLargestInteger(integers) {
+  let result = integers[0].integer
+
+  for (let i = 0; i < integers.length; i++) {
+    if (integers[i].integer > result) {
+      result = integers[i].integer
+    }
+  }
+  return result;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
 class Counter {
   /**
    * [Exercise 4A] Counter creates a counter
@@ -41,8 +62,9 @@ class Counter {
    */
   constructor(initialNumber) {
     // ✨ initialize whatever properties are needed
+    this.count = initialNumber
   }
-
+  ///////////////////////////////////////////////////////////////////////////////////////////////////
   /**
    * [Exercise 4B] Counter.prototype.countDown counts down to zero
    * @returns {number} - the next count, does not go below zero
@@ -56,7 +78,7 @@ class Counter {
    * counter.countDown() // returns 0
    */
   countDown() {
-    // ✨ implement
+    return this.count > 0 ? this.count-- : 0
   }
 }
 
@@ -65,7 +87,9 @@ class Seasons {
    * [Exercise 5A] Seasons creates a seasons object
    */
   constructor() {
+    this.seasons = ["summer", "fall", "winter", "spring"]
     // ✨ initialize whatever properties are needed
+    this.currentSeason = 0
   }
 
   /**
@@ -81,7 +105,13 @@ class Seasons {
    * seasons.next() // returns "summer"
    */
   next() {
-    // ✨ implement
+    const result = this.seasons[this.currentSeason]
+    if (this.currentSeason === 3) {
+      this.currentSeason = 0
+    } else {
+      this.currentSeason++
+    }
+    return result
   }
 }
 
@@ -95,6 +125,8 @@ class Car {
   constructor(name, tankSize, mpg) {
     this.odometer = 0 // car initilizes with zero miles
     this.tank = tankSize // car initiazes full of gas
+    this.tankSize = tankSize // this won't change.
+    this.mpg = mpg
     // ✨ initialize whatever other properties are needed
   }
 
@@ -113,8 +145,15 @@ class Car {
    */
   drive(distance) {
     // ✨ implement
+    if (distance <= 600 && this.tank > 0) {
+      this.odometer += distance
+      this.tank -= (distance / this.mpg)
+    }
+    if (this.tank === 0) {
+      null
+    }
+    console.log("tANK", this.tank)
   }
-
   /**
    * [Exercise 6C] Adds gallons to the tank
    * @param {number} gallons - the gallons of fuel we want to put in the tank
@@ -128,6 +167,11 @@ class Car {
    */
   refuel(gallons) {
     // ✨ implement
+    if (this.tank === 0) {
+      this.drive(0)
+    } if (gallons > 0 && gallons <= 20) {
+      this.tank += gallons
+    }
   }
 }
 
